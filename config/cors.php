@@ -19,9 +19,14 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => env('APP_ENV') === 'production'
-        ? ['https://semi-useful-tools.com']
-        : [],
+    'allowed_origins' => [
+        'https://semi-useful-tools.com',
+        // Add some debug logging
+        tap('https://semi-useful-tools.com', function($origin) {
+            \Log::info('CORS config loaded with origin: ' . $origin);
+            \Log::info('Current environment: ' . app()->environment());
+        })
+    ][0],
 
     'allowed_origins_patterns' => [],
 
